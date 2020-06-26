@@ -104,19 +104,50 @@ public class TaskDAO {
             //           System.out.println("Connected to Database");
 
             Statement stmt = null;
-            String sql  = "DELETE FROM `tasks` WHERE ID= " + task.getId();
+// TODO Figure out how to deleta a record
+            String sql  = "DELETE FROM `tasks` WHERE ID= " + task.getId()+"";
 
             try {
                 stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql);
+              stmt.execute(sql);
 
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String name = rs.getString("name");
-
-//                    TaskVO task = new TaskVO(id, name);
-  //                  tasks.add(task);
+            } catch (SQLException e) {
+                throw new Error("Problem", e);
+            } finally {
+                if (stmt != null) {
+                    stmt.close();
                 }
+            }
+
+        } catch (SQLException e) {
+            throw new Error("Problem", e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+    }
+
+    public void editTask(TaskVO taskVO){
+
+        Connection conn = null;
+        try {
+            String url = "jdbc:mysql://localhost:3306/tasks?user=root";
+            conn = DriverManager.getConnection(url);
+
+            Statement stmt = null;
+            //UPDATE `tasks` SET `name`="Biking" WHERE id = 3
+            String sql  = "UPDATE `tasks` SET `name`= '" + taskVO.getName() + "' WHERE ID= " + taskVO.getId()+";";
+
+            try {
+                stmt = conn.createStatement();
+                stmt.execute(sql);
+
             } catch (SQLException e) {
                 throw new Error("Problem", e);
             } finally {
