@@ -12,11 +12,11 @@ public class TaskGUI {
         this.taskDAO = new TaskDAO();
     }
 
-    public void scanInputTask() {
+    public void scanInput() {
         System.out.println("Welcome... Please choose: \n a-add \n d-delete \n e-edit \n p-print \n x-exit");
 
         while (true) {
- //           System.out.println("Bitte wählen sie...");
+            //           System.out.println("Bitte wählen sie...");
             String input = this.scanner.nextLine();
             switch (input) {
                 case "a":
@@ -42,16 +42,23 @@ public class TaskGUI {
 
     public void addTask() {
         System.out.println("Enter the task you want to add.");
+        String input = this.scanner.nextLine();
+        TaskVO task = new TaskVO(0, input);
+        this.taskDAO.insertTask(task);
+        printAllTasks();
     }
 
     public void deleteTask() {
+        System.out.println("Enter the ID of the task you would like to delete.");
+        int inputId = this.scanner.nextInt();
+        printAllTasks();
 
     }
 
-    public void printAllTasks(){
-        List<TaskVO> tasks= this.taskDAO.getAllTasks();
+    public void printAllTasks() {
+        List<TaskVO> tasks = this.taskDAO.getAllTasks();
         System.out.println("Print out of your tasks");
-        for (TaskVO task:tasks) {
+        for (TaskVO task : tasks) {
             System.out.println("ID: " + task.getId() + " Name: " + task.getName());
         }
 
