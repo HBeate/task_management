@@ -73,7 +73,7 @@ exitTask();
         System.out.println("Enter the ID of the task you would like to edit.");
         String inputId = scanner.nextLine();
         int id = Integer.valueOf(inputId);
-        System.out.println("Enter the name you would like to edit.");
+        System.out.println("Enter the new name.");
         String input = scanner.nextLine();
         TaskVO taskVO = new TaskVO(id, input);
         taskDAO.editTask(taskVO);
